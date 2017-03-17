@@ -1,0 +1,7 @@
+ 
+ <div class='nested-fields'>
+    
+ <%= f.input :nombre, collection: Curso.all.collect, prompt: 'Seleccione un Curso Requisito', :label_method=> :nombre, :label => "Requisito"%>
+ <%= link_to_remove_association "Eliminar Requisito", f%>
+ 
+ </div>

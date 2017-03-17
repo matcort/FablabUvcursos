@@ -1,0 +1,31 @@
+<%= simple_form_for @usuario, html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { check_boxes: :horizontal_radio_and_checkboxes, radio_buttons: :horizontal_radio_and_checkboxes, file: :horizontal_file_input, boolean: :horizontal_boolean } do |f| %>
+    <%= f.input :nombre %>
+    <%= f.input :rut %>
+    <%= f.input :mail %>
+    <%= f.input :fechaingreso %>
+    <%= f.input :foto %>
+    <%= f.input :rol %>
+    <%= f.input :activo %>
+    <%= f.input :password_digest %>
+    
+ <div class="form-group">
+    <div class="col-md-10">
+      <%= f.simple_fields_for :estudios do |estudio|%>
+        <%= render 'estudio_fields', f: estudio%>
+      <%end%>  
+      
+      <%= link_to_add_association 'Añadir Estudios', f, :estudios%>
+   
+    </div>
+  </div>
+  
+  
+  
+  <div class="form-group">
+    <div class='col-sm-offset-3 col-sm-9'>
+      <%= f.button :submit, class: 'btn-primary' %>
+      <%= link_to t('.cancel', default: t("helpers.links.cancel")),
+                  usuarios_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>

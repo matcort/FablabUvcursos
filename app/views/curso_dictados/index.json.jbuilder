@@ -1,0 +1,1 @@
+json.array! @curso_dictados, partial: 'curso_dictados/curso_dictado', as: :curso_dictado

@@ -1,0 +1,27 @@
+<%= simple_form_for(@curso_dictado) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :estado %>
+    <%= f.input :fecha_inicio %>
+    <%= f.input :fecha_fin %>
+    <%= f.association :curso, :label_method=> :nombre %>
+  </div>
+
+<h3>Horarios</h3>
+
+  <div id="horario">
+   <%= f.simple_fields_for :horario_cursos do |horario_curso|%>
+    <%= render 'horario_curso_fields', :f => horario_curso %>
+  <% end %>
+      <div class='links'>
+    <%= link_to_add_association 'Añadir Horario', f, :horario_cursos%>
+    </div>
+  </div>
+  
+  
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
