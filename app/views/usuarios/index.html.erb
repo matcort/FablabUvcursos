@@ -13,7 +13,7 @@
       <th><%= model_class.human_attribute_name(:foto) %></th>
       <th><%= model_class.human_attribute_name(:rol) %></th>
       <th><%= model_class.human_attribute_name(:activo) %></th>
-      <th><%= model_class.human_attribute_name(:password_digest) %></th>
+      <th>Habilidades</th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', default: t("helpers.actions") %></th>
     </tr>
@@ -29,7 +29,16 @@
           <td><%= usuario.foto %></td>
           <td><%= usuario.rol %></td>
           <td><%= usuario.activo %></td>
-          <td><%= usuario.password_digest %></td>
+          <td>
+            <%@cursodictado =usuario.curso_dictado.all%>
+            <% @cursodictado.each do |cursodictado|%>
+            <%#=image_tag habilidad("cnc.svg")%>
+    
+            <%= image_tag attachment_url(cursodictado.curso, :profile_image, :fill, 30, 28, format: "jpg") %>
+            <%end%>
+
+          
+          </td>
         <td><%=l usuario.created_at, format: :long %></td>
         <td>
           <%= link_to usuario_path(usuario), class: 'btn btn-xs', title: "#{ t('.show', default: t('helpers.links.show')) }" do %>

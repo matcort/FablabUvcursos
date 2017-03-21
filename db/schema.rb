@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317021127) do
+ActiveRecord::Schema.define(version: 20170320204329) do
 
   create_table "curso_dictado_usuarios", force: :cascade do |t|
     t.integer  "usuario_id"
@@ -36,8 +36,10 @@ ActiveRecord::Schema.define(version: 20170317021127) do
 
   create_table "cursos", force: :cascade do |t|
     t.string   "nombre"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "icono"
+    t.string   "profile_image_id"
   end
 
   create_table "estudios", force: :cascade do |t|

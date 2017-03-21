@@ -7,7 +7,7 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:nombre) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th>Logo</th>
       <th><%=t '.actions', default: t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -16,7 +16,7 @@
       <tr>
         <td><%= curso.id %></td>
           <td><%= curso.nombre %></td>
-        <td><%=l curso.created_at, format: :long %></td>
+        <td><%= image_tag attachment_url(curso, :profile_image, :fill, 40, 40, format: "jpg") %></td>
         <td>
           <%= link_to curso_path(curso), class: 'btn btn-xs', title: "#{ t('.show', default: t('helpers.links.show')) }" do %>
             <%= glyph 'info-sign' %>

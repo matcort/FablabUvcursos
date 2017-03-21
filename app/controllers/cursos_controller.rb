@@ -25,7 +25,7 @@ class CursosController < ApplicationController
   # POST /cursos.json
   def create
     @curso = Curso.new(curso_params)
-
+    
     respond_to do |format|
       if @curso.save
         format.html { redirect_to @curso, notice: 'Curso was successfully created.' }
@@ -36,6 +36,8 @@ class CursosController < ApplicationController
       end
     end
   end
+  
+  
 
   # PATCH/PUT /cursos/1
   # PATCH/PUT /cursos/1.json
@@ -69,6 +71,6 @@ class CursosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def curso_params
-      params.require(:curso).permit(:nombre, requisitos_attributes: [:id, :nombre, :done, :_destroy])
+      params.require(:curso).permit(:nombre, :icono, :profile_image, requisitos_attributes: [:id, :nombre, :done, :_destroy])
     end
 end

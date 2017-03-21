@@ -32,6 +32,9 @@ gem "cocoon"
 gem "simple_form"
 gem 'roo'
 
+##imagenes refile
+gem "refile", require: "refile/rails"
+gem "refile-mini_magick"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

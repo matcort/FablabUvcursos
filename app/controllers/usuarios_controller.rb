@@ -25,6 +25,7 @@ def import
         
     else
         #indexar a curso_dictado_usuario
+        puts @idusuario
         @idusuario = Usuario.where(:rut => @usuario.rut).first.id
           CursoDictadoUsuario.create(:usuario_id =>@idusuario , :curso_dictado_id => @curso)
     end
@@ -38,6 +39,7 @@ end
   # GET /usuarios.json
   def index
     @usuarios = Usuario.all
+    #@habilidades = Usuario.first.curso_dictado.first.curso.profile_image
   end
 
   # GET /usuarios/1
