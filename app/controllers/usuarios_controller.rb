@@ -11,28 +11,83 @@ def import
  # xlsx.each_with_pagename do |name, f| #name es nombre de la hija, no
   #  p f.row(3)
 #  end
-  
+  @mensaje = "hola mundo"
   xlsx.each(nombre: 'nombre', rut: 'rut', mail: "mail", fechaingreso: "fecha ingreso") do |usuario|
     
-    
+               
     @usuario = Usuario.new(usuario)
     print "hola mundo"
     print @usuario.id
-    if @usuario.save
-        #indexar a curso_dictado_usuario
+    @cursodictado=CursoDictado.where(:id => @curso).first
+    @guardar=true
+    @bool=false
+    @req=[] #requisitos faltantes
+    if !@cursodictado.curso.requisitos.blank? 
       
-        CursoDictadoUsuario.create(:usuario_id => @usuario.id, :curso_dictado_id => @curso)
+      if !Usuario.where(:rut => @usuario.rut).first.blank?
         
-    else
-        #indexar a curso_dictado_usuario
-        puts @idusuario
-        @idusuario = Usuario.where(:rut => @usuario.rut).first.id
-          CursoDictadoUsuario.create(:usuario_id =>@idusuario , :curso_dictado_id => @curso)
-    end
+        @cursodictado.curso.requisitos.each do |requisito|
+          Usuario.where(:rut => @usuario.rut).first.curso_dictado.find_each do |usercurso|          #.cursos.each do |curso|
+          
+            if usercurso.curso.id == requisito.nombre.to_i #nombre esta en string :S
+              #puts requisito.nombre
+              #puts "yy"
+              #puts usercurso.curso.id
+              @bool=true && @guardar
+              break
+            else
+              @bool=false
+              
+            end
+            
+            
+          end
+          
+          if @bool
+            @guardar=true && @guardar
+          else
+            @guardar=false
+            @req[@req.length]=requisito #terminar guardar requisitos no pasados.
+            print @req
+          end
+          
+          
+        end
+        
+        if @guardar
+            puts @idusuario
+            @idusuario = Usuario.where(:rut => @usuario.rut).first.id
+            CursoDictadoUsuario.create(:usuario_id =>@idusuario , :curso_dictado_id => @curso)
+        else
+          #render :text => 
+          @mensaje= "Este curso tiene pre-requisitos y este usuario no tiene los prerequisitos." 
+        end
+      
+        
+      else
+        #render :text => 
+        @mensaje= "Este curso tiene pre-requisitos y este usuario no tiene cursos." 
+      end
+       
+    else 
+        if @usuario.save
+            #indexar a curso_dictado_usuario
+            
+            CursoDictadoUsuario.create(:usuario_id => @usuario.id, :curso_dictado_id => @curso)
+            @mensaje="Nuevo Usuario ingresado exitosamente"
+            
+        else
+            #indexar a curso_dictado_usuario
+            puts @idusuario
+            @idusuario = Usuario.where(:rut => @usuario.rut).first.id
+              CursoDictadoUsuario.create(:usuario_id =>@idusuario , :curso_dictado_id => @curso)
+              @mensaje="Curso agregado a usuario antiguo."
+        end
+      end #fin if requisito
      
     # => { id: 1, name: 'John Smith' }
   end
-  redirect_to :back , notice: "Usuarios ingresados exitosamente, y si no?##" 
+  redirect_to :back , notice: @mensaje #Alertar sobre usuario que no se pudieron ingresar y por que.
 end
 
   # GET /usuarios
