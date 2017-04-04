@@ -30,11 +30,12 @@
           <td><%= usuario.rol %></td>
           <td><%= usuario.activo %></td>
           <td>
-            <%@cursodictado =usuario.curso_dictado.all%>
-            <% @cursodictado.each do |cursodictado|%>
-            <%#=image_tag habilidad("cnc.svg")%>
-    
-            <%= image_tag attachment_url(cursodictado.curso, :profile_image, :fill, 30, 28, format: "jpg") %>
+            <%@cursodictado =usuario.curso_dictado_usuarios%>
+            <% @cursodictado.each do |cursodictadousuario|%>
+              <%if cursodictadousuario.aprobado == "1" %>
+                <%= image_tag attachment_url(cursodictadousuario.curso_dictado.curso, :profile_image, :fill, 30, 28, format: "jpg") %>
+              <%end%>
+            
             <%end%>
 
           

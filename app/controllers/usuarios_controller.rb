@@ -1,94 +1,66 @@
+
+require "#{Rails.root}/lib/tasks/userreq"
 class UsuariosController < ApplicationController
-  before_action :set_usuario, only: [:show, :edit, :update, :destroy]
-
-
-
-def import
-  #CursoDictado.import(params[:file])
-  xlsx = Roo::Spreadsheet.open(params[:file])
-  xlsx.sheets
- @curso = params[:curso]
- # xlsx.each_with_pagename do |name, f| #name es nombre de la hija, no
-  #  p f.row(3)
-#  end
-  @mensaje = "hola mundo"
-  xlsx.each(nombre: 'nombre', rut: 'rut', mail: "mail", fechaingreso: "fecha ingreso") do |usuario|
+  
+    include Userreq
     
-               
-    @usuario = Usuario.new(usuario)
-    print "hola mundo"
-    print @usuario.id
-    @cursodictado=CursoDictado.where(:id => @curso).first
-    @guardar=true
-    @bool=false
-    @req=[] #requisitos faltantes
-    if !@cursodictado.curso.requisitos.blank? 
-      
-      if !Usuario.where(:rut => @usuario.rut).first.blank?
-        
-        @cursodictado.curso.requisitos.each do |requisito|
-          Usuario.where(:rut => @usuario.rut).first.curso_dictado.find_each do |usercurso|          #.cursos.each do |curso|
-          
-            if usercurso.curso.id == requisito.nombre.to_i #nombre esta en string :S
-              #puts requisito.nombre
-              #puts "yy"
-              #puts usercurso.curso.id
-              @bool=true && @guardar
-              break
-            else
-              @bool=false
-              
-            end
-            
-            
-          end
-          
-          if @bool
-            @guardar=true && @guardar
-          else
-            @guardar=false
-            @req[@req.length]=requisito #terminar guardar requisitos no pasados.
-            print @req
-          end
-          
-          
-        end
-        
-        if @guardar
-            puts @idusuario
-            @idusuario = Usuario.where(:rut => @usuario.rut).first.id
-            CursoDictadoUsuario.create(:usuario_id =>@idusuario , :curso_dictado_id => @curso)
-        else
-          #render :text => 
-          @mensaje= "Este curso tiene pre-requisitos y este usuario no tiene los prerequisitos." 
-        end
-      
-        
+    before_action :set_usuario, only: [:show, :edit, :update, :destroy]
+
+
+
+  def import
+    
+    xlsx = Roo::Spreadsheet.open(params[:file])
+    xlsx.sheets
+    @curso = params[:curso]
+    @mensaje = "hola mundo"
+    xlsx.each(nombre: 'nombre', rut: 'rut', mail: "mail", fechaingreso: "fecha ingreso", asistencia: "asistencia", nota: "nota", aprobado: "aprobado") do |usuario|
+      if usuario[:nombre] == "nombre" #anular primera linea del excel
+        puts usuario[:id]
       else
-        #render :text => 
-        @mensaje= "Este curso tiene pre-requisitos y este usuario no tiene cursos." 
-      end
        
-    else 
-        if @usuario.save
-            #indexar a curso_dictado_usuario
+        @user=Usuario.where(:rut => usuario[:rut]).first
+        puts usuario
+        puts "hola mundo"
+        if !@user.blank? #Si usuario existe
+          if !CursoDictadoUsuario.where(:curso_dictado_id=>@curso.to_i, :usuario_id=>@user.id).first.blank? #usuario ya esta inscrito en el curso
+          #########Aca sobre escribir al usuario, y no crear nuevo usuario en el curso########################################
+          @cursodicuser=CursoDictadoUsuario.where(:usuario_id =>@user , :curso_dictado_id => @curso).first
+            if !@cursodicuser.blank? 
+              puts usuario
+              @cursodicuser.update(:asistencia=>usuario[:asistencia], :nota => usuario[:nota], :aprobado=>usuario[:aprobado])
+              @mensaje="update user"
+            else #esta en blanco
+              @mensaje="problemas linea 32"
+            end
+              
             
-            CursoDictadoUsuario.create(:usuario_id => @usuario.id, :curso_dictado_id => @curso)
-            @mensaje="Nuevo Usuario ingresado exitosamente"
-            
-        else
-            #indexar a curso_dictado_usuario
-            puts @idusuario
-            @idusuario = Usuario.where(:rut => @usuario.rut).first.id
-              CursoDictadoUsuario.create(:usuario_id =>@idusuario , :curso_dictado_id => @curso)
-              @mensaje="Curso agregado a usuario antiguo."
-        end
-      end #fin if requisito
-     
-    # => { id: 1, name: 'John Smith' }
+            #indexcursouser(@curso, @user)
+          else #Usuario no esta inscrito en el curso
+            if cursotienereq(@curso) #tiene requisito
+              if comprobarreq(params[:curso], @user) #usuario tiene los cursos requisitos aprobados
+                @mensaje=indexcursouser(@curso, @user)
+              else #usuario no tiene los cursos requisitos
+                
+                @mensaje="Usuario no cumple con los requisitos."
+              end #fin comprobante requisitos usuario
+            else #no tiene requisito
+              indexcursouser(@curso, @user)
+            end
+          end #fin if usuario inscrito en curso
+        else # Si no existe Usuario
+          if cursotienereq(@curso) #Curso Tiene requisito?
+            @mensaje="El usuario no tiene cursos en FabLab."
+          else  #Curso no tiene requisito
+            @usuario=Usuario.create(:nombre => usuario[:nombre], :rut=>usuario[:rut], :mail=>usuario[:mail], :fechaingreso=>usuario[:fechaingreso])
+            @mensaje=indexcursouser(@curso, @usuario)
+          end #Fin if requisito curso.
+        end #fin if usuario existe.
+      end
+    end
+    redirect_to :back , notice: @mensaje #Alertar sobre usuario que no se pudieron ingresar y por que.
+    
   end
-  redirect_to :back , notice: @mensaje #Alertar sobre usuario que no se pudieron ingresar y por que.
-end
 
   # GET /usuarios
   # GET /usuarios.json

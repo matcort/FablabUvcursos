@@ -11,13 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320204329) do
+ActiveRecord::Schema.define(version: 20170322163308) do
 
   create_table "curso_dictado_usuarios", force: :cascade do |t|
     t.integer  "usuario_id"
     t.integer  "curso_dictado_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "aprobado"
+    t.float    "asistencia"
+    t.float    "nota"
   end
 
   add_index "curso_dictado_usuarios", ["curso_dictado_id"], name: "index_curso_dictado_usuarios_on_curso_dictado_id"
