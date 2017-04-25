@@ -1,6 +1,6 @@
 class CursosController < ApplicationController
   before_action :set_curso, only: [:show, :edit, :update, :destroy]
-
+add_breadcrumb "Cursos", :cursos_path
   # GET /cursos
   # GET /cursos.json
   def index
@@ -10,15 +10,18 @@ class CursosController < ApplicationController
   # GET /cursos/1
   # GET /cursos/1.json
   def show
+    add_breadcrumb "Ver", :curso_path
   end
 
   # GET /cursos/new
   def new
+    add_breadcrumb "Nuevo", :new_curso_path
     @curso = Curso.new
   end
 
   # GET /cursos/1/edit
   def edit
+    add_breadcrumb "Editar", :edit_curso_path
   end
 
   # POST /cursos

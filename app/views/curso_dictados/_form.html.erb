@@ -2,10 +2,12 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :estado %>
+    <%= f.input :estado,  collection: [[ "Activo", 1], ["Inactivo", 0]], prompt: "Ingrese Estado"%>
+     
+    
     <%= f.input :fecha_inicio %>
     <%= f.input :fecha_fin %>
-    <%= f.association :curso, :label_method=> :nombre %>
+    <%= f.association :curso, :label_method=> :nombre,  prompt: "Ingrese Curso" %>
   </div>
 
 <h3>Horarios</h3>

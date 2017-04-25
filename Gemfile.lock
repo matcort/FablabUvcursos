@@ -46,6 +46,7 @@ GEM
       sass (~> 3.2)
     bootstrap-sass-extras (0.0.7)
       rails (>= 3.1.0)
+    breadcrumbs_on_rails (3.0.1)
     builder (3.2.2)
     byebug (9.0.5)
     cocoon (1.2.9)
@@ -178,6 +179,7 @@ DEPENDENCIES
   bcrypt (= 3.1.11)
   bootstrap-sass (~> 3.2.0)
   bootstrap-sass-extras
+  breadcrumbs_on_rails
   byebug
   cocoon
   coffee-rails (~> 4.1.0)

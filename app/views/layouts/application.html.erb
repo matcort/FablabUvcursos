@@ -51,23 +51,39 @@
           <a class="navbar-brand" href="#">FablaB</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
+
+
+<% if logged_in? %>
+
+                 <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
             <li><%= link_to "Curso", cursos_path %></li>
             <li><%= link_to "Curso Dictado", curso_dictados_path %></li>
             <li><%= link_to "Usuarios", usuarios_path %></li>
-            
+            <li><%= link_to "Log out", logout_path, method: :delete %></li>
             
             
           </ul>
         </div><!-- /.navbar-collapse -->
+          
+             
+          
+          
+          
+          
+        <% else %>
+         
+        <% end %>
+
+ 
       </div>
     </nav>
 
     <div class="container" id="yield">
       <div class="row">
-        <div class="col-md-9" >
+        <div class="col-md-9">
+          <%= render_breadcrumbs %>
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
@@ -86,7 +102,9 @@
       <!--</div><!--/row-->
 
       <footer>
-        <p>&copy; Fablab Uv 2016</p>
+              <%= debug(params) if Rails.env.development? %>
+
+        <p>&copy; Fablab Uv 2017</p>
       </footer>
 
     </div> <!-- /container -->

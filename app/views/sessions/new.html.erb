@@ -1,0 +1,19 @@
+<% provide(:title, "Sistema de Cursos FabLab") %>
+<h1>Inicie Sesion</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(:session, url: login_path) do |f| %>
+
+      <%= f.label :rut %>
+      <%= f.number_field :rut, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    <% end %>
+
+  
+  </div>
+</div>

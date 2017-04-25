@@ -5,7 +5,7 @@ class UsuariosController < ApplicationController
     include Userreq
     
     before_action :set_usuario, only: [:show, :edit, :update, :destroy]
-
+    add_breadcrumb "Usuarios", :usuarios_path
 
 
   def import
@@ -72,15 +72,18 @@ class UsuariosController < ApplicationController
   # GET /usuarios/1
   # GET /usuarios/1.json
   def show
+    add_breadcrumb "Ver", :usuario_path
   end
 
   # GET /usuarios/new
   def new
+    add_breadcrumb "Nuevo", :new_usuario_path
     @usuario = Usuario.new
   end
 
   # GET /usuarios/1/edit
   def edit
+    add_breadcrumb "Editando " + @usuario.nombre, :edit_usuario_path
   end
 
   # POST /usuarios
@@ -131,6 +134,6 @@ class UsuariosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def usuario_params
-      params.require(:usuario).permit(:nombre, :rut, :mail, :fechaingreso, :foto, :curso, :rol, :activo, :password_digest, estudios_attributes: [:id, :carrera_o_curso, :institucion_id, :done, :_destroy, institucions_attributes: [:id, :nombre, :done, :_destroy]])
+      params.require(:usuario).permit(:nombre, :rut, :mail, :fechaingreso, :foto, :curso, :rol, :activo, :password, :password_confirmation, estudios_attributes: [:id, :carrera_o_curso, :institucion_id, :done, :_destroy, institucions_attributes: [:id, :nombre, :done, :_destroy]])
     end
 end

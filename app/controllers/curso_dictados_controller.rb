@@ -1,5 +1,7 @@
 class CursoDictadosController < ApplicationController
+  
   before_action :set_curso_dictado, only: [:show, :edit, :update, :destroy]
+  add_breadcrumb "Cursos Dictados", :root_path
   
 
   # GET /curso_dictados
@@ -11,6 +13,7 @@ class CursoDictadosController < ApplicationController
   # GET /curso_dictados/1
   # GET /curso_dictados/1.json
   def show
+    add_breadcrumb "Ver y Agregar Estudiantes", :curso_dictado_path
     @usuarioscurso = CursoDictadoUsuario.joins(:usuario).where(:curso_dictado => params[:id])
    # CursoDictado.includes(:usuarios).where(:usuarios => { :id => params[:usuarios] } )
   end
@@ -19,11 +22,13 @@ class CursoDictadosController < ApplicationController
 
   # GET /curso_dictados/new
   def new
+    add_breadcrumb "Nuevo Curso Dictado", :new_curso_dictado_path
     @curso_dictado = CursoDictado.new
   end
 
   # GET /curso_dictados/1/edit
   def edit
+    add_breadcrumb "Editar Curso Dictado de " + Curso.where(:id=>@curso_dictado.curso_id).first.nombre, :edit_curso_dictado_path
   end
 
   # POST /curso_dictados
@@ -76,4 +81,6 @@ class CursoDictadosController < ApplicationController
     def curso_dictado_params
       params.require(:curso_dictado).permit(:estado, :fecha_inicio, :fecha_fin, :curso_id, horario_cursos_attributes: [:id, :dia, :hora, :done, :_destroy])
     end
+    
+
 end

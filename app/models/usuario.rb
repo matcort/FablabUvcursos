@@ -11,5 +11,5 @@ class Usuario < ActiveRecord::Base
     
     validates :rut, uniqueness: true
     validates :mail, uniqueness: true
-
+    has_secure_password
 end
