@@ -3,6 +3,7 @@
         <%#= f.input :institucion_id, collection: Institucion.all.collect, prompt: 'Seleccione una Institucion', :label_method=> :nombre%>
 
     <%= f.association :institucion, collection: Institucion.order(:nombre), prompt: 'Busque una Institucion', :label_method => :nombre%>
-     
+   
+
         <%= link_to_remove_association "Eliminar Estudios", f%>
 </div>

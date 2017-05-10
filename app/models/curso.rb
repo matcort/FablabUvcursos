@@ -4,5 +4,8 @@ class Curso < ActiveRecord::Base
     has_many :requisitos
     accepts_nested_attributes_for :requisitos, allow_destroy: true
     
+    validates :nombre, presence: true
+
+    
   
 end

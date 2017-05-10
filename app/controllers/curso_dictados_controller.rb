@@ -7,7 +7,11 @@ class CursoDictadosController < ApplicationController
   # GET /curso_dictados
   # GET /curso_dictados.json
   def index
-    @curso_dictados = CursoDictado.all
+    if current_user.rol=="1"
+      @curso_dictados = CursoDictado.all
+    elsif current_user.rol == "2"
+      @curso_dictados =  CursoDictado.where(:id=>[CursoDictadoProfesor.where(usuario_id: current_user.id).map(&:curso_dictado_id)])
+    end
   end
 
   # GET /curso_dictados/1
@@ -28,7 +32,7 @@ class CursoDictadosController < ApplicationController
 
   # GET /curso_dictados/1/edit
   def edit
-    add_breadcrumb "Editar Curso Dictado de " + Curso.where(:id=>@curso_dictado.curso_id).first.nombre, :edit_curso_dictado_path
+   add_breadcrumb "Editar Curso Dictado", :edit_curso_dictado_path #+ Curso.where(:id=>@curso_dictado.curso_id).first.nombre, :edit_curso_dictado_path
   end
 
   # POST /curso_dictados
@@ -79,7 +83,7 @@ class CursoDictadosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def curso_dictado_params
-      params.require(:curso_dictado).permit(:estado, :fecha_inicio, :fecha_fin, :curso_id, horario_cursos_attributes: [:id, :dia, :hora, :done, :_destroy])
+      params.require(:curso_dictado).permit(:estado, :fecha_inicio, :fecha_fin, :curso_id, horario_cursos_attributes: [:id, :dia, :hora, :done, :_destroy],  curso_dictado_profesor_attributes: [:id, :usuario_id, :curso_dictado_id, :done, :_destroy])
     end
     
 

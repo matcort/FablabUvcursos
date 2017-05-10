@@ -54,35 +54,46 @@
 
 
 <% if logged_in? %>
-
+  <%if  @current_user.rol=="1"%>
                  <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "Curso", cursos_path %></li>
-            <li><%= link_to "Curso Dictado", curso_dictados_path %></li>
+            <li><%= link_to "Cursos", cursos_path %></li>
+            <li><%= link_to "Cursos Dictados", curso_dictados_path %></li>
+            <li><%= link_to "Usuarios", usuarios_path %></li>
+            <li><%= link_to "Institución", institucions_path %></li>
+            <li><%= link_to "Log out", logout_path, method: :delete %></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+  <%elsif @current_user.rol=="2"%>        
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+          <ul class="nav navbar-nav">
+            <li><%= link_to "Lista de Cursos ", cursos_path %></li>
+            <li><%= link_to "Cursos Dictados", curso_dictados_path %></li>
             <li><%= link_to "Usuarios", usuarios_path %></li>
             <li><%= link_to "Log out", logout_path, method: :delete %></li>
-            
-            
           </ul>
         </div><!-- /.navbar-collapse -->
           
-             
+  <% end %>
+        
           
           
           
           
-        <% else %>
+          
+  <% else %>
          
-        <% end %>
+  <% end %>
 
  
       </div>
     </nav>
 
     <div class="container" id="yield">
+      
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
           <%= render_breadcrumbs %>
           <%= bootstrap_flash %>
           <%= yield %>
@@ -102,7 +113,7 @@
       <!--</div><!--/row-->
 
       <footer>
-              <%= debug(params) if Rails.env.development? %>
+              <%#= debug(params) if Rails.env.development? %>
 
         <p>&copy; Fablab Uv 2017</p>
       </footer>

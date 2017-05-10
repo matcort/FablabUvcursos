@@ -2,14 +2,30 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :estado,  collection: [[ "Activo", 1], ["Inactivo", 0]], prompt: "Ingrese Estado"%>
+    <%= f.input :estado,  collection: [[ "Activo", 1], ["Inactivo", 0]], prompt: "Ingrese Estado",  selected: "Activo"%>
      
     
     <%= f.input :fecha_inicio %>
     <%= f.input :fecha_fin %>
     <%= f.association :curso, :label_method=> :nombre,  prompt: "Ingrese Curso" %>
   </div>
+<br>
 
+  <div class="row">
+        <div class="col-md-6">
+<h3>Profesor</h3>
+
+  <div id="profesor">
+   <%= f.simple_fields_for :curso_dictado_profesor do |curso_dictado_profesor|%>
+    <%= render 'curso_dictado_profesor_fields', :f => curso_dictado_profesor %>
+  <% end %>
+      <div class='links'>
+    <%= link_to_add_association 'Añadir Profesor', f, :curso_dictado_profesor%>
+    </div>
+  </div>
+  </div>
+
+ <div class="col-md-6">
 <h3>Horarios</h3>
 
   <div id="horario">
@@ -20,9 +36,10 @@
     <%= link_to_add_association 'Añadir Horario', f, :horario_cursos%>
     </div>
   </div>
-  
-  
+    </div>
 
+  </div>
+<br>
   <div class="form-actions">
     <%= f.button :submit %>
   </div>

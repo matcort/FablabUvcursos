@@ -7,6 +7,7 @@ module Userreq
           puts usuario
           puts "indexado !!!---- :S"
         @idusuario = Usuario.where(:rut => usuario.rut).first.id
+        
         if CursoDictadoUsuario.create(:usuario_id =>@idusuario , :curso_dictado_id => @curso)
             return "curso indexado correctamente"
         else

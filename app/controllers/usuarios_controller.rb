@@ -14,7 +14,7 @@ class UsuariosController < ApplicationController
     xlsx.sheets
     @curso = params[:curso]
     @mensaje = "hola mundo"
-    xlsx.each(nombre: 'nombre', rut: 'rut', mail: "mail", fechaingreso: "fecha ingreso", asistencia: "asistencia", nota: "nota", aprobado: "aprobado") do |usuario|
+    xlsx.each(nombre: 'nombre', rut: 'rut', mail: "mail",estudios: "estudios/curso", institucion: "institucion", fechaingreso: "fecha ingreso", asistencia: "asistencia", nota: "nota", aprobado: "aprobado") do |usuario|
       if usuario[:nombre] == "nombre" #anular primera linea del excel
         puts usuario[:id]
       else
@@ -29,6 +29,7 @@ class UsuariosController < ApplicationController
             if !@cursodicuser.blank? 
               puts usuario
               @cursodicuser.update(:asistencia=>usuario[:asistencia], :nota => usuario[:nota], :aprobado=>usuario[:aprobado])
+              Estudio.update(:carrera_o_curso => usuario[:estudios],:usuario_id => @user.id, :institucion_id => Institucion.where(:nombre => usuario[institucion]))
               @mensaje="update user"
             else #esta en blanco
               @mensaje="problemas linea 32"
@@ -39,12 +40,14 @@ class UsuariosController < ApplicationController
           else #Usuario no esta inscrito en el curso
             if cursotienereq(@curso) #tiene requisito
               if comprobarreq(params[:curso], @user) #usuario tiene los cursos requisitos aprobados
+                puts "marca 1"
                 @mensaje=indexcursouser(@curso, @user)
               else #usuario no tiene los cursos requisitos
                 
                 @mensaje="Usuario no cumple con los requisitos."
               end #fin comprobante requisitos usuario
             else #no tiene requisito
+              puts "marca 2"
               indexcursouser(@curso, @user)
             end
           end #fin if usuario inscrito en curso
@@ -52,8 +55,14 @@ class UsuariosController < ApplicationController
           if cursotienereq(@curso) #Curso Tiene requisito?
             @mensaje="El usuario no tiene cursos en FabLab."
           else  #Curso no tiene requisito
-            @usuario=Usuario.create(:nombre => usuario[:nombre], :rut=>usuario[:rut], :mail=>usuario[:mail], :fechaingreso=>usuario[:fechaingreso])
-            @mensaje=indexcursouser(@curso, @usuario)
+        #    @usuario=Usuario.create(:nombre => usuario[:nombre], :rut=>usuario[:rut], :mail=>usuario[:mail], :fechaingreso=>usuario[:fechaingreso])
+        @usuario=Usuario.new(:nombre => usuario[:nombre], :rut=>usuario[:rut], :mail=>usuario[:mail], :fechaingreso=>usuario[:fechaingreso], password:"usersinprivilegios", password_confirmation:"usersinprivilegios")
+           if @usuario.save
+             @mensaje=indexcursouser(@curso, @usuario)
+           else
+             @mensaje ="rollback"
+           end
+            puts "marca 3"
           end #Fin if requisito curso.
         end #fin if usuario existe.
       end

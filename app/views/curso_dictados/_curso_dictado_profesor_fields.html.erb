@@ -1,0 +1,7 @@
+ 
+ <div class='nested-fields'>
+        <%= f.association :usuario, collection: Usuario.where(:rol =>[1,2]).order(:nombre), prompt: 'Busque un Profesor', :label_method => :nombre%>
+
+ <%= link_to_remove_association "Eliminar Profesor", f%>
+ 
+ </div>

@@ -1,8 +1,8 @@
  
  <div class='nested-fields'>
     
- <%= f.input :dia, :label => "Dia:"%>
- <%= f.input :hora, :label => "Hora"%>
+ <%= f.input :dia,  collection: [ "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]%>
+ <%= f.input :hora, as: "time", :label => "Hora"%>
  <%= link_to_remove_association "Eliminar Horario", f%>
  
  </div>
