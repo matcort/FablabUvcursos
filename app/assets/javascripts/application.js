@@ -16,3 +16,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require moment
+// after the bootstrap and moment dependencies
+//= require fullcalendar
+//= require dataTables/jquery.dataTables
+ 

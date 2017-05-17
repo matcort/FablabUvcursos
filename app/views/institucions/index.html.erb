@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1>Instituciones</h1>
 </div>
-<table class="table table-striped">
+<table id="datatableinstitucion" class="table table-striped">
   <thead>
     <tr>
       <!--<th><%#= model_class.human_attribute_name(:id) %></th> -->
@@ -36,3 +36,36 @@
 <%= link_to t('.new', default: t("helpers.links.new")),
             new_institucion_path,
             class: 'btn btn-primary' %>
+<script>  
+  $(document).ready(function() {
+    $('#datatableinstitucion').DataTable({
+       //autoWidth: true,
+       //pagingType: 'full_numbers',
+       //serverSide: true,
+       "language": {
+                      "sProcessing":     "Procesando...",
+                      "sLengthMenu":     "Mostrar _MENU_ registros",
+                      "sZeroRecords":    "No se encontraron resultados",
+                      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                      "sInfoPostFix":    "",
+                      "sSearch":         "Buscar:",
+                      "sUrl":            "",
+                      "sInfoThousands":  ",",
+                      "sLoadingRecords": "Cargando...",
+                      "oPaginate": {
+                          "sFirst":    "Primero",
+                          "sLast":     "Último",
+                          "sNext":     "Siguiente",
+                          "sPrevious": "Anterior"
+                      },
+                      "oAria": {
+                          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                      }
+                    }
+    });
+  });
+</script>

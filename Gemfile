@@ -31,15 +31,16 @@ gem 'bcrypt',         '3.1.11'
 gem "cocoon"
 gem "simple_form"
 gem 'roo'
-
+gem 'momentjs-rails'
+gem 'fullcalendar-bootstrap-rails'
 ##imagenes refile
 gem "refile", require: "refile/rails"
-gem "refile-mini_magick"
+gem "refile-mini_magick" # Instalar imagen magic
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
 gem "breadcrumbs_on_rails"
-
+gem 'jquery-datatables-rails', '~> 3.4'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
