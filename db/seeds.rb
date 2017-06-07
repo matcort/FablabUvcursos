@@ -19,10 +19,7 @@
 #Curso.create(nombre:"Curso B")
 #Curso.create(nombre:"Curso C")
 
-Usuario.create(nombre:"Admin", rut:1, password:"12345678", password_confirmation:"12345678", rol:"1", mail:"a")
-Usuario.create(nombre:"M1", rut:21, password:"12345678", password_confirmation:"12345678", rol:"1", mail:"da")
-Usuario.create(nombre:"a", rut:31, password:"12345678", password_confirmation:"12345678", rol:"1", mail:"sda")
-Usuario.create(nombre:"b", rut:41, password:"12345678", password_confirmation:"12345678", rol:"1", mail:"asd")
-Usuario.create(nombre:"c", rut:51, password:"12345678", password_confirmation:"12345678", rol:"1", mail:"dsea")
-Usuario.create(nombre:"d", rut:16, password:"12345678", password_confirmation:"12345678", rol:"1", mail:"ega")
+Usuario.create(nombre:"Admins Tester", rut:1, password:"123", password_confirmation:"123", rol:"1", mail:"a")
+
+
 
