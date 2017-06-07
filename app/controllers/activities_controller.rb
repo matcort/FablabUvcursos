@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show]
+add_breadcrumb "Actividad Reciente", :cursos_path
 
   # GET /activities
   # GET /activities.json
