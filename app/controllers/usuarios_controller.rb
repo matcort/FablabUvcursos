@@ -116,7 +116,6 @@ record_activity("Inserción de  Usuarios por planilla Excel")
   def update
     respond_to do |format|
       if @usuario.update(usuario_params)
-        record_activity("Actualización de Usuario")
         format.html { redirect_to @usuario, notice: 'Usuario was successfully updated.' }
         format.json { render :show, status: :ok, location: @usuario }
       else
