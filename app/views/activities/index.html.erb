@@ -1,0 +1,76 @@
+<%- model_class = Activity -%>
+<div class="page-header">
+  <h1>Actividad Reciente</h1>
+</div>
+<table id="activity" class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th>Nombre Usuario</th>
+      <th><%= model_class.human_attribute_name(:browser) %></th>
+      <th><%= model_class.human_attribute_name(:ip_address) %></th>
+      <th><%= model_class.human_attribute_name(:controller) %></th>
+      <th><%= model_class.human_attribute_name(:action) %></th>
+      <th><%= model_class.human_attribute_name(:params) %></th>
+      <th>Notas</th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', default: t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @activities.each do |activity| %>
+      <tr>
+        <td><%= activity.id %></td>
+          <td><%= activity.user_id %></td>
+          <td><%= activity.browser %></td>
+          <td><%= activity.ip_address %></td>
+          <td><%= activity.controller %></td>
+          <td><%= activity.action %></td>
+          <td><%= activity.params %></td>
+          <td><%= activity.note %></td>
+        <td><%=l activity.created_at, format: :long %></td>
+        <td>
+          <%= link_to activity_path(activity), class: 'btn btn-xs', title: "#{ t('.show', default: t('helpers.links.show')) }" do %>
+            <%= glyph 'info-sign' %>
+          <%- end -%>
+      
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<script>  
+   $(document).ready(function() {
+     $('#activity').DataTable({
+       //autoWidth: true,
+       //pagingType: 'full_numbers',
+       //serverSide: true,
+       "language": {
+                      "sProcessing":     "Procesando...",
+                      "sLengthMenu":     "Mostrar _MENU_ registros",
+                      "sZeroRecords":    "No se encontraron resultados",
+                      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                      "sInfoPostFix":    "",
+                      "sSearch":         "Buscar:",
+                      "sUrl":            "",
+                      "sInfoThousands":  ",",
+                      "sLoadingRecords": "Cargando...",
+                      "oPaginate": {
+                          "sFirst":    "Primero",
+                          "sLast":     "Último",
+                          "sNext":     "Siguiente",
+                          "sPrevious": "Anterior"
+                      },
+                      "oAria": {
+                          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                      }
+                    }
+    });
+  });
+</script>

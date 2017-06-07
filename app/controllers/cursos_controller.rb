@@ -32,6 +32,7 @@ add_breadcrumb "Cursos", :cursos_path
     respond_to do |format|
       @curso
       if @curso.save
+        record_activity("Nuevo Curso")
         format.html { redirect_to @curso, notice: 'Curso was successfully created.' }
         format.json { render :show, status: :created, location: @curso }
       else
@@ -48,6 +49,7 @@ add_breadcrumb "Cursos", :cursos_path
   def update
     respond_to do |format|
       if @curso.update(curso_params)
+        record_activity("Actualización de Curso ")
         format.html { redirect_to @curso, notice: 'Curso was successfully updated.' }
         format.json { render :show, status: :ok, location: @curso }
       else
@@ -62,6 +64,7 @@ add_breadcrumb "Cursos", :cursos_path
   def destroy
     @curso.destroy
     respond_to do |format|
+      record_activity("Eliminación de Curso ")
       format.html { redirect_to cursos_url, notice: 'Curso was successfully destroyed.' }
       format.json { head :no_content }
     end

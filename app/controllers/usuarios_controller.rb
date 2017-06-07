@@ -13,7 +13,7 @@ class UsuariosController < ApplicationController
     xlsx = Roo::Spreadsheet.open(params[:file])
     xlsx.sheets
     @curso = params[:curso]
-    @mensaje = "hola mundo"
+record_activity("Inserción de  Usuarios por planilla Excel")
     xlsx.each(nombre: 'nombre', rut: 'rut', mail: "mail",estudios: "estudios/curso", institucion: "institucion", fechaingreso: "fecha ingreso", asistencia: "asistencia", nota: "nota", aprobado: "aprobado") do |usuario|
       if usuario[:nombre] == "nombre" #anular primera linea del excel
         puts usuario[:id]
@@ -21,7 +21,6 @@ class UsuariosController < ApplicationController
        
         @user=Usuario.where(:rut => usuario[:rut]).first
         puts usuario
-        puts "hola mundo"
         if !@user.blank? #Si usuario existe
           if !CursoDictadoUsuario.where(:curso_dictado_id=>@curso.to_i, :usuario_id=>@user.id).first.blank? #usuario ya esta inscrito en el curso
           #########Aca sobre escribir al usuario, y no crear nuevo usuario en el curso########################################
@@ -102,6 +101,7 @@ class UsuariosController < ApplicationController
 
     respond_to do |format|
       if @usuario.save
+        record_activity("Nuevo Usuario")
         format.html { redirect_to @usuario, notice: 'Usuario was successfully created.' }
         format.json { render :show, status: :created, location: @usuario }
       else
@@ -116,6 +116,7 @@ class UsuariosController < ApplicationController
   def update
     respond_to do |format|
       if @usuario.update(usuario_params)
+        record_activity("Actualización de Usuario")
         format.html { redirect_to @usuario, notice: 'Usuario was successfully updated.' }
         format.json { render :show, status: :ok, location: @usuario }
       else
@@ -130,6 +131,7 @@ class UsuariosController < ApplicationController
   def destroy
     @usuario.destroy
     respond_to do |format|
+      record_activity("Eliminación de Usuario")
       format.html { redirect_to usuarios_url, notice: 'Usuario was successfully destroyed.' }
       format.json { head :no_content }
     end

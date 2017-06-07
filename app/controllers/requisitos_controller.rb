@@ -25,7 +25,7 @@ class RequisitosController < ApplicationController
   # POST /requisitos.json
   def create
     @requisito = Requisito.new(requisito_params)
-
+record_activity("Nuevo Requisito")
     respond_to do |format|
       if @requisito.save
         format.html { redirect_to @requisito, notice: 'Requisito was successfully created.' }
@@ -42,6 +42,7 @@ class RequisitosController < ApplicationController
   def update
     respond_to do |format|
       if @requisito.update(requisito_params)
+        record_activity("Actualización de Requisito")
         format.html { redirect_to @requisito, notice: 'Requisito was successfully updated.' }
         format.json { render :show, status: :ok, location: @requisito }
       else
@@ -56,6 +57,7 @@ class RequisitosController < ApplicationController
   def destroy
     @requisito.destroy
     respond_to do |format|
+      record_activity("Eliminación Requisito")
       format.html { redirect_to requisitos_url, notice: 'Requisito was successfully destroyed.' }
       format.json { head :no_content }
     end

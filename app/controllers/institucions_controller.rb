@@ -33,6 +33,7 @@ class InstitucionsController < ApplicationController
 
     respond_to do |format|
       if @institucion.save
+         record_activity("Nueva Institución")
         format.html { redirect_to @institucion, notice: 'Institucion was successfully created.' }
         format.json { render :show, status: :created, location: @institucion }
       else
@@ -47,6 +48,7 @@ class InstitucionsController < ApplicationController
   def update
     respond_to do |format|
       if @institucion.update(institucion_params)
+        record_activity("Actualización de Institución")
         format.html { redirect_to @institucion, notice: 'Institucion was successfully updated.' }
         format.json { render :show, status: :ok, location: @institucion }
       else
@@ -61,6 +63,7 @@ class InstitucionsController < ApplicationController
   def destroy
     @institucion.destroy
     respond_to do |format|
+      record_activity("Eliminación de Institución")
       format.html { redirect_to institucions_url, notice: 'Institucion was successfully destroyed.' }
       format.json { head :no_content }
     end

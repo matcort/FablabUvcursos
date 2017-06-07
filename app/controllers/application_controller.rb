@@ -13,5 +13,17 @@ class ApplicationController < ActionController::Base
                 redirect_to login_url
             end
         end
+        
+def record_activity(note)
+    @activity = Activity.new
+    @activity.user_id = current_user.nombre
+    @activity.note = note
+    @activity.browser = request.env['HTTP_USER_AGENT']
+    @activity.ip_address = request.env['REMOTE_ADDR']
+    @activity.controller = controller_name 
+    @activity.action = action_name 
+    @activity.params = params.inspect
+    @activity.save
+end
 
 end

@@ -42,6 +42,7 @@ class CursoDictadosController < ApplicationController
 
     respond_to do |format|
       if @curso_dictado.save
+        record_activity("Nuevo Curso Dictado")
         format.html { redirect_to @curso_dictado, notice: 'Curso dictado was successfully created.' }
         format.json { render :show, status: :created, location: @curso_dictado }
       else
@@ -56,6 +57,7 @@ class CursoDictadosController < ApplicationController
   def update
     respond_to do |format|
       if @curso_dictado.update(curso_dictado_params)
+        record_activity("Actualizacion de Curso Dictado")
         format.html { redirect_to @curso_dictado, notice: 'Curso dictado was successfully updated.' }
         format.json { render :show, status: :ok, location: @curso_dictado }
       else
@@ -70,6 +72,7 @@ class CursoDictadosController < ApplicationController
   def destroy
     @curso_dictado.destroy
     respond_to do |format|
+      record_activity("Eliminación de Curso Dictado")
       format.html { redirect_to curso_dictados_url, notice: 'Curso dictado was successfully destroyed.' }
       format.json { head :no_content }
     end
